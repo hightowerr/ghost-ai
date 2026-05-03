@@ -9,6 +9,8 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+context\current-issues.md
+context\progress-tracker.md
 
 # testing
 /coverage
