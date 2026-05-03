@@ -4,16 +4,17 @@ Update this file whenever the current phase, active feature, or implementation s
 
 ## Current Phase
 
-- Feature 03 (Auth) — complete
+- Feature 04 (Project Dialogs) — complete
 
 ## Current Goal
 
-- Feature 04 (TBD)
+- Feature 05 (TBD)
 
 ## Completed
 
 - Feature 01: Design System — shadcn/ui (v4.6.0) initialized for Tailwind v4 with `components.json` (style: new-york, baseColor: neutral, cssVariables, lucide icons). Dark-only theme tokens defined in app/globals.css under `:root` with project palette (--bg-base/surface/elevated/subtle, --text-primary/secondary/muted/faint, --accent-primary/-dim, --accent-ai/-text, --state-error/success/warning) and aliased into shadcn's `--background`/`--foreground`/`--card`/`--primary`/etc. plus a `@theme inline` block exposing utilities (`bg-base`, `text-copy-primary`, `border-surface-border`, `text-brand`, `bg-accent-dim`, `text-accent-ai-text`, ...). Button/Card/Dialog/Input/Tabs/Textarea/ScrollArea generated under components/ui/ (untouched). lib/utils.ts exports `cn()` via clsx + tailwind-merge. Dependencies: clsx, tailwind-merge, lucide-react, radix-ui, class-variance-authority. app/layout.tsx body now uses `bg-base text-copy-primary`. `npm run lint`, `npx tsc --noEmit`, and `npm run build` all pass.
 - Feature 02: Editor Chrome — EditorNavbar (fixed top bar with PanelLeftOpen/PanelLeftClose toggle) and ProjectSidebar (fixed overlay, slides from left, Projects title + close button, My Projects/Shared tabs with empty states, New Project button) added to components/editor/. Dialog pattern confirmed ready via existing components/ui/dialog.tsx. TypeScript and ESLint clean.
+- Feature 04: Project Dialogs — `hooks/use-project-actions.ts` (rename + delete state, `handleDelete` with loading guard), `isOwner` computed in `app/editor/[roomId]/page.tsx` via parallel `Promise.all([getAccessibleProject, getCurrentProjectIdentity])`, `EditorSidebar` extended with `Pencil`/`Trash2` buttons (owner-gated), `EditorWorkspaceClient` extended with local `projectName` state, Rename dialog (prefilled input, auto-focus via `onOpenAutoFocus`, Enter submits), Delete dialog (destructive confirm, loading guard, redirect to `/editor` on success), and V3 mobile backdrop scrim (`fixed inset-0 z-10 bg-black/40 md:hidden` closes sidebar on tap). `tsc --noEmit` and `pnpm lint` pass clean.
 - Feature 03: Auth — Clerk middleware (proxy.ts), ClerkProvider with dark appearance, sign-in/sign-up pages, root redirect, Prisma schema (Project/ProjectCollaborator/ProjectSpec/TaskRun in single schema.prisma — prismaSchemaFolder was dropped in favour of single-file), lib/prisma.ts singleton, lib/project-access.ts (getCurrentProjectIdentity, getAccessibleProject, userHasProjectAccess), lib/projects.ts (getProjectsForUser), CRUD API routes (GET/POST projects, PATCH/DELETE project), EditorHomeClient with inline create/rename/delete, editor/[roomId]/page.tsx access gate, AccessDenied, EditorWorkspaceClient stub, lib/liveblocks.ts with getUserColor, lib/project-collaborators.ts (getProjectShareDetails with Clerk enrichment), collaborators API (GET/POST/DELETE), liveblocks-auth endpoint, liveblocks.config.ts UserMeta declaration. `tsc --noEmit` and `npm run lint` pass. Prisma migration (`npx prisma migrate dev --name add-project-model`) must be run by the user after setting DATABASE_URL in .env.local.
 
 ## In Progress
@@ -22,7 +23,7 @@ Update this file whenever the current phase, active feature, or implementation s
 
 ## Next Up
 
-- Feature 04 (TBD)
+- Feature 05 (TBD)
 
 ## Open Questions
 
