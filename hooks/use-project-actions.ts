@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 export type ProjectDialog = "rename" | "delete" | null;
 
@@ -35,6 +35,8 @@ export function useProjectActions(
     loading: false,
   });
 
+  const deletingRef = useRef(false);
+
   const openRename = useCallback((currentName: string) => {
     setState({ dialog: "rename", name: currentName, loading: false });
   }, []);
@@ -61,24 +63,24 @@ export function useProjectActions(
 
   const handleDelete = useCallback(
     async (projectId: string) => {
-      setState((prev) => {
-        if (prev.loading) return prev;
-        return { ...prev, loading: true };
-      });
+      if (deletingRef.current) return;
+      deletingRef.current = true;
+      setState((prev) => ({ ...prev, loading: true }));
 
-      // Read current loading state after the setState above is applied.
-      // Use a ref-style pattern: check inside try block after the state flush.
       try {
         const res = await fetch(`/api/projects/${projectId}`, {
           method: "DELETE",
         });
         if (!res.ok) {
+          deletingRef.current = false;
           setState((prev) => ({ ...prev, loading: false }));
           return;
         }
+        deletingRef.current = false;
         setState((prev) => ({ ...prev, dialog: null, loading: false }));
         onDeleted?.();
       } catch {
+        deletingRef.current = false;
         setState((prev) => ({ ...prev, loading: false }));
       }
     },
